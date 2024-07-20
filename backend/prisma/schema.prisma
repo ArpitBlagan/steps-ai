@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Doctor{
+  id        String @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String @unique
+  password  String
+  specialty String
+  pdfs      Pdfs[]
+  patients  DocAndPatient[]
+  request   Request[]
+  notification Notification[]
+  converstations Conversation[]
+}
+
+model Patient{
+  id            String @id @default(uuid())
+  firstName     String
+  lastName      String
+  email         String @unique
+  password      String
+  doctors       DocAndPatient[]
+  request       Request[]
+  notification  Notification[]
+  converstations Conversation[]
+}
+
+model Pdfs{
+  id       String @id @default(uuid())
+  title    String
+  filePath String
+  doctorId String
+  doctor   Doctor @relation(fields: [doctorId],references: [id])
+}
+
+model DocAndPatient{
+  id        String @id @default(uuid())
+  doctorId  String
+  patientId String
+  doctor    Doctor @relation(fields: [doctorId],references: [id])
+  patient   Patient @relation(fields: [patientId],references: [id])
+}
+
+model Request{
+  id        String @id @default(uuid())
+  doctorId  String
+  patientId String
+  note      String
+  doctor    Doctor @relation(fields: [doctorId],references: [id])
+  patient   Patient @relation(fields: [patientId],references: [id])
+}
+model Notification{
+  id        String @id @default(uuid())
+  message   String
+  doctorId  String ? @unique()
+  patientId String ? @unique()
+  doctor    Doctor ? @relation(fields: [doctorId],references: [id])
+  patient   Patient ? @relation(fields: [patientId],references: [id])
+}
+
+model Conversation{
+  id        String @id @default(uuid())
+  doctorId  String  @unique()
+  patientId String  @unique()
+  doctor    Doctor  @relation(fields: [doctorId],references: [id])
+  patient   Patient @relation(fields: [patientId],references: [id])
+  messages  Message[]
+}
+
+model Message{
+  id              String @id @default(uuid())
+  type            String
+  text            String
+  by              String
+  to              String
+  conversationId  String
+  conversation    Conversation @relation(fields: [conversationId],references: [id])
+}
