@@ -41,7 +41,7 @@ const SignUp = () => {
         specialty: specialty,
       };
       const res = await axios.post(
-        `http://localhost:9000/api/${doc ? "doc" : "patient"}/register`,
+        `https://steps-ai.onrender.com/api/${doc ? "doc" : "patient"}/register`,
         body,
         {
           withCredentials: true,

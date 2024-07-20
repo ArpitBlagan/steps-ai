@@ -30,7 +30,7 @@ const Contextt = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (info.isloggedIn && info.makeConnection) {
       const ws = new WebSocket(
-        `ws://localhost:9000?isDoctor=${info.isDoctor}&&id=${info.id}`
+        `wss://steps-ai.onrender.com?isDoctor=${info.isDoctor}&&id=${info.id}`
       );
       setInfo((prev: any) => {
         return { ...prev, ws, makeConnection: false };
@@ -51,9 +51,12 @@ const Contextt = ({ children }: { children: React.ReactNode }) => {
     toast("Welcome :) !");
     const getInfo = async () => {
       try {
-        const res = await axios.get("http://localhost:9000/api/isloggedin", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://steps-ai.onrender.com/api/isloggedin",
+          {
+            withCredentials: true,
+          }
+        );
         console.log(res.data);
         setInfo({
           isloggedIn: true,

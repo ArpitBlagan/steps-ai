@@ -61,7 +61,7 @@ const Chat = () => {
   useEffect(() => {
     const getConv = async () => {
       const res = await axios.get(
-        `http://localhost:9000/api/getconv/${
+        `https://steps-ai.onrender.com/api/getconv/${
           value?.info.isDoctor ? "patient" : "doctor"
         }/${sele.id}`,
         { withCredentials: true }
@@ -77,7 +77,7 @@ const Chat = () => {
     const getData = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:9000/api/get${
+          `https://steps-ai.onrender.com/api/get${
             value?.info.isDoctor ? "patients" : "docs"
           }`,
           { withCredentials: true }

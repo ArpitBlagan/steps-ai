@@ -27,7 +27,7 @@ const Request = () => {
     setId(id);
     try {
       await axios.post(
-        `http://localhost:9000/api/accept`,
+        `https://steps-ai.onrender.com/api/accept`,
         { id, patientId },
         {
           withCredentials: true,
@@ -55,9 +55,12 @@ const Request = () => {
   useEffect(() => {
     const getRequest = async () => {
       try {
-        const res = await axios.get("http://localhost:9000/api/request", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://steps-ai.onrender.com/api/request",
+          {
+            withCredentials: true,
+          }
+        );
         console.log(res.data);
         setRequests(res.data);
         setLoading(false);

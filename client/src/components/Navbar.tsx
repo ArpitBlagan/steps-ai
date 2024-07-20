@@ -113,9 +113,12 @@ const Navbar = () => {
                   onClick={async (e) => {
                     e.preventDefault();
                     try {
-                      await axios.get("http://localhost:9000/api/logout", {
-                        withCredentials: true,
-                      });
+                      await axios.get(
+                        "https://steps-ai.onrender.com/api/logout",
+                        {
+                          withCredentials: true,
+                        }
+                      );
                       window.location.reload();
                       navigate("/");
                     } catch (err) {

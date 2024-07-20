@@ -37,7 +37,7 @@ const SignIn = () => {
         password: data.password,
       };
       const res = await axios.post(
-        `http://localhost:9000/api/${doc ? "doc" : "patient"}/login`,
+        `https://steps-ai.onrender.com/api/${doc ? "doc" : "patient"}/login`,
         body,
         {
           withCredentials: true,
