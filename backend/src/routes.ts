@@ -15,7 +15,11 @@ import fs from "fs";
 import {
   addPatient,
   deletePdf,
+  getDocs,
+  getDoctorConv,
   getDoctors,
+  getPatientConv,
+  getPatients,
   getPdf,
   getRelation,
   getRequest,
@@ -96,3 +100,7 @@ router.route("/pdf/:id").delete(deletePdf);
 router.route("/relation").get(getRelation);
 router.route("/doctors").get(getDoctors);
 router.route("/request").get(getRequest);
+router.route("/getdocs").get(getDocs);
+router.route("/getpatients").get(getPatients);
+router.route("/getconv/patient/:idd").get(getPatientConv);
+router.route("/getconv/doctor/:idd").get(getDoctorConv);

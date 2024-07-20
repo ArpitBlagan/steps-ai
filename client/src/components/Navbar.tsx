@@ -72,6 +72,14 @@ const Navbar = () => {
             Doctors
           </Link>
         )}
+        <Link
+          to="/chat"
+          className={`hover:underline ${
+            location.pathname == "/chat" ? "text-red-500" : ""
+          }`}
+        >
+          Chat
+        </Link>
       </div>
       <div className="flex md:flex-row flex-col items-center justify-end gap-2">
         {!value?.info.isloggedIn ? (
@@ -82,7 +90,11 @@ const Navbar = () => {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="default" className="w-1/2 px-4" size="icon">
+              <Button
+                variant="default"
+                className="w-1/2 md:block hidden"
+                size="icon"
+              >
                 Profile
               </Button>
             </DropdownMenuTrigger>

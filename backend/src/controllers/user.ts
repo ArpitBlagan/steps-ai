@@ -261,3 +261,88 @@ export const getDoctors = async (req: Request, res: Response) => {
     res.status(500).json({ message: "something went wrong:(" });
   }
 };
+
+export const getPatients = async (req: Request, res: Response) => {
+  const { id } = req.user;
+  try {
+    const ress = await prisma.doctor.findFirst({
+      where: { id },
+      include: {
+        patients: {
+          select: {
+            patient: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    res.status(200).json(ress?.patients);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "something went wrong:(" });
+  }
+};
+
+export const getDocs = async (req: Request, res: Response) => {
+  const { id } = req.user;
+  try {
+    const ress = await prisma.patient.findFirst({
+      where: { id },
+      include: {
+        doctors: {
+          select: {
+            doctor: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                email: true,
+                specialty: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    res.status(200).json(ress?.doctors);
+  } catch (err) {
+    res.status(500).json({ message: "something went wrong:(" });
+  }
+};
+
+export const getPatientConv = async (req: Request, res: Response) => {
+  const { id } = req.user;
+  const { idd } = req.params;
+  try {
+    const conv = await prisma.conversation.findFirst({
+      where: { doctorId: id, patientId: idd },
+      include: {
+        messages: true,
+      },
+    });
+    res.status(200).json(conv ? conv.messages : []);
+  } catch (err) {
+    res.status(500).json({ message: "something went wrong:(" });
+  }
+};
+export const getDoctorConv = async (req: Request, res: Response) => {
+  const { id } = req.user;
+  const { idd } = req.params;
+  try {
+    const conv = await prisma.conversation.findFirst({
+      where: { doctorId: idd, patientId: id },
+      include: {
+        messages: true,
+      },
+    });
+    res.status(200).json(conv ? conv.messages : []);
+  } catch (err) {
+    res.status(500).json({ message: "something went wrong:(" });
+  }
+};

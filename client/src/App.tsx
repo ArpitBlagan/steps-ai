@@ -12,6 +12,7 @@ import Doctors from "./Doctors";
 import Request from "./Request";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Chat from "./Chat";
 function App() {
   return (
     <Contextt>
@@ -25,6 +26,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/doctors" element={<Doctors />} />
           <Route path="/request" element={<Request />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
         <Footer />
       </Router>

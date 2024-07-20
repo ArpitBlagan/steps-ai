@@ -31,16 +31,56 @@ export class User {
       }
     }
   }
+
+  async sendMessage(
+    by: string,
+    to: string,
+    text: string,
+    type: string,
+    doctorId: string,
+    patientId: string,
+    ws: WebSocket
+  ) {
+    try {
+      const conv = await prisma.conversation.findFirst({
+        where: { doctorId, patientId },
+      });
+      if (conv) {
+        await prisma.message.create({
+          data: { by, to, type, text, conversationId: conv.id },
+        });
+      } else {
+        const conversation = await prisma.conversation.create({
+          data: { doctorId, patientId },
+        });
+        await prisma.message.create({
+          data: { by, to, type, text, conversationId: conversation.id },
+        });
+      }
+      const user = this.user.get(to);
+      if (user) {
+        user.ws.send(JSON.stringify({ kind: "message", by, to, text, type }));
+      }
+    } catch (err) {
+      console.log("error while sending message:(");
+      console.log(err);
+      ws.send(
+        JSON.stringify({
+          type: "error",
+          message: "error while sending message",
+        })
+      );
+    }
+  }
+
   requestAccpeted(id: string, docName: string) {
     if (this.user.get(id)) {
-      this.user
-        .get(id)
-        .ws.send(
-          JSON.stringify({
-            type: "accepted",
-            message: `Your request send to doctor ${docName} is accepted by him.`,
-          })
-        );
+      this.user.get(id).ws.send(
+        JSON.stringify({
+          type: "accepted",
+          message: `Your request send to doctor ${docName} is accepted by him.`,
+        })
+      );
     }
   }
   async sendNotification(

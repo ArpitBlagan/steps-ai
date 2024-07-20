@@ -49,6 +49,16 @@ wss.on("connection", (ws: WebSocket, req: Request) => {
       );
     } else if (message.type == "accept") {
       instance.requestAccpeted(message.id, message.docName);
+    } else if (message.type == "text") {
+      instance.sendMessage(
+        message.by,
+        message.to,
+        message.text,
+        message.type,
+        message.doctorId,
+        message.patientId,
+        ws
+      );
     }
   });
   ws.on("close", () => {
