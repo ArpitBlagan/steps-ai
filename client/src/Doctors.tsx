@@ -53,9 +53,12 @@ const Doctors = () => {
     const getDocs = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:9000/api/doctors", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://steps-ai.onrender.com/api/doctors",
+          {
+            withCredentials: true,
+          }
+        );
         console.log(res.data);
         const docs = res.data.doctors;
         const reqs = res.data.request;

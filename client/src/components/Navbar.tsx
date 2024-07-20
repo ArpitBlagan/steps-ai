@@ -90,11 +90,7 @@ const Navbar = () => {
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="default"
-                className="w-1/2 md:block hidden"
-                size="icon"
-              >
+              <Button variant="default" className="w-full  px-3" size="icon">
                 Profile
               </Button>
             </DropdownMenuTrigger>

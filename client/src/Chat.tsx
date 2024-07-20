@@ -320,7 +320,7 @@ const Chat = () => {
                       />
                     </div>
                   )}
-                  <div ref={scrollRef} />
+                  <div ref={scrollRef2} />
                 </div>
               );
             })}
